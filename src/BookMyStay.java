@@ -1,36 +1,47 @@
-abstract class Room {
-    String roomType;
-    int beds;
-    double price;
+import java.util.HashMap;
 
-    Room(String roomType, int beds, double price) {
-        this.roomType = roomType;
-        this.beds = beds;
-        this.price = price;
+/**
+ * Book My Stay - Hotel Booking System
+ * Use Case 3: Centralized Room Inventory Management
+ *
+ * This program demonstrates how room availability can be
+ * managed using a centralized HashMap instead of separate variables.
+ *
+ * @author Rashi
+ * @version 3.1
+ */
+
+class RoomInventory {
+
+    private HashMap<String, Integer> inventory;
+
+    // Constructor initializes room availability
+    public RoomInventory() {
+        inventory = new HashMap<>();
+
+        inventory.put("Single Room", 5);
+        inventory.put("Double Room", 3);
+        inventory.put("Suite Room", 2);
     }
 
-    void displayRoomDetails() {
-        System.out.println("Room Type: " + roomType);
-        System.out.println("Beds: " + beds);
-        System.out.println("Price: ₹" + price);
+    // Method to get availability
+    public int getAvailability(String roomType) {
+        return inventory.getOrDefault(roomType, 0);
     }
-}
 
-class SingleRoom extends Room {
-    SingleRoom() {
-        super("Single Room", 1, 2000);
+    // Method to update availability
+    public void updateAvailability(String roomType, int newCount) {
+        inventory.put(roomType, newCount);
     }
-}
 
-class DoubleRoom extends Room {
-    DoubleRoom() {
-        super("Double Room", 2, 3500);
-    }
-}
+    // Method to display inventory
+    public void displayInventory() {
 
-class SuiteRoom extends Room {
-    SuiteRoom() {
-        super("Suite Room", 3, 6000);
+        System.out.println("\n===== Current Room Inventory =====");
+
+        for (String roomType : inventory.keySet()) {
+            System.out.println(roomType + " : " + inventory.get(roomType) + " available");
+        }
     }
 }
 
@@ -38,23 +49,24 @@ public class BookMyStay {
 
     public static void main(String[] args) {
 
-        Room single = new SingleRoom();
-        Room dbl = new DoubleRoom();
-        Room suite = new SuiteRoom();
+        System.out.println("===== Book My Stay - Room Inventory System =====");
 
-        int singleAvailable = 5;
-        int doubleAvailable = 3;
-        int suiteAvailable = 2;
+        // Initialize inventory
+        RoomInventory inventory = new RoomInventory();
 
-        System.out.println("=== Book My Stay Room Availability ===");
+        // Display inventory
+        inventory.displayInventory();
 
-        single.displayRoomDetails();
-        System.out.println("Available: " + singleAvailable);
+        // Check availability
+        int singleRooms = inventory.getAvailability("Single Room");
+        System.out.println("\nAvailable Single Rooms: " + singleRooms);
 
-        dbl.displayRoomDetails();
-        System.out.println("Available: " + doubleAvailable);
+        // Update inventory after booking
+        inventory.updateAvailability("Single Room", singleRooms - 1);
 
-        suite.displayRoomDetails();
-        System.out.println("Available: " + suiteAvailable);
+        System.out.println("\nAfter booking one Single Room:");
+
+        // Display updated inventory
+        inventory.displayInventory();
     }
 }
