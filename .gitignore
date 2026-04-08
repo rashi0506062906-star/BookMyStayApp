@@ -2,7 +2,10 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+<<<<<<< HEAD
 .kotlin
+=======
+>>>>>>> 92d02ea (Base application setup)
 
 ### Eclipse ###
 .apt_generated
